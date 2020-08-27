@@ -17,7 +17,38 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
         // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
         // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
         // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-        guard let _ = (scene as? UIWindowScene) else { return }
+        guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        window = UIWindow(frame: UIScreen.main.bounds)
+        window?.windowScene = windowScene
+        window?.makeKeyAndVisible()
+        
+        let tabBarController = UITabBarController()
+        
+        let statusViewController = StatusViewController(style: .grouped)
+        statusViewController.tabBarItem = UITabBarItem(title: "Status", image: UIImage(systemName: "person.circle"), tag: 0)
+        let statusNavigationController = UINavigationController(rootViewController: statusViewController)
+        
+        let callViewController = CallViewController()
+        callViewController.tabBarItem = UITabBarItem(title: "Calls", image: UIImage(systemName: "phone"), tag: 1)
+        let callNavigationController = UINavigationController(rootViewController: callViewController)
+        
+        let cameraViewController = CameraViewController()
+        cameraViewController.tabBarItem = UITabBarItem(title: "Camera", image: UIImage(systemName: "camera"), tag: 2)
+        
+        let chatViewController = ChatViewController()
+        chatViewController.tabBarItem = UITabBarItem(title: "Chats", image: UIImage(systemName: "message"), tag: 3)
+        let chatNavigationController = UINavigationController(rootViewController: chatViewController)
+        
+        let settingViewController = SettingViewController(style: .grouped)
+        settingViewController.tabBarItem = UITabBarItem(title: "Settings", image: UIImage(systemName: "gear"), tag: 4)
+        let settingNavigationController = UINavigationController(rootViewController: settingViewController)
+        
+        tabBarController.viewControllers = [statusNavigationController, callNavigationController, cameraViewController, chatNavigationController, settingNavigationController]
+        tabBarController.selectedIndex = 3
+        
+        window?.rootViewController = tabBarController
+        window?.backgroundColor = .systemBackground
     }
 
     func sceneDidDisconnect(_ scene: UIScene) {
